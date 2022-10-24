@@ -17,7 +17,7 @@ def _compiler(ctx):
     ]
 
     outputs = [output_directory]
-    outputs.extend(output_files)
+    #    outputs.extend(output_files)
 
     args = ctx.actions.args()
     args.add(output_directory.path)
