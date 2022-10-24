@@ -18,10 +18,20 @@ java_import(
 )
 
 kt_jvm_library(
-    name = "example_gql",
+    name = "example_gql_with_srcs",
     srcs = [
         "Main.java",
-        #        ":compiler",
+        ":compiler",
+    ],
+    deps = [
+        "@maven//:com_apollographql_apollo3_apollo_compiler",
+    ],
+)
+
+kt_jvm_library(
+    name = "example_gql_with_jar",
+    srcs = [
+        "Main.java",
     ],
     deps = [
         ":java_archive",
