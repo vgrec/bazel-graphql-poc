@@ -15,8 +15,6 @@ kt_jvm_library(
 
 compiler(
     name = "compiler",
-    srcs = [
-        "queries/launchlist.graphql",
-        "queries/schema.graphqls",
-    ],
+    query_file = "queries/launchlist.graphql",
+    schema_file = "queries/schema.graphqls",
 )

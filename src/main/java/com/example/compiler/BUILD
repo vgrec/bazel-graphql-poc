@@ -4,6 +4,7 @@ java_binary(
     name = "code_generator",
     srcs = [
         "Compiler.java",
+        "JarHelper.java",
     ],
     main_class = "com.example.compiler.Compiler",
     deps = [

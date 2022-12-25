@@ -1,27 +1,15 @@
 def _compiler(ctx):
     output_directory = ctx.actions.declare_directory("apollo")
-    inputs = ctx.files.srcs
+    output_srcjar = ctx.actions.declare_file("sources.srcjar")
 
-    output_files = [
-        ctx.actions.declare_file("apollo/com/example/selections/LaunchListQuerySelections.kt"),
-        ctx.actions.declare_file("apollo/com/example/adapter/LaunchListQuery_ResponseAdapter.kt"),
-        ctx.actions.declare_file("apollo/com/example/type/GraphQLBoolean.kt"),
-        ctx.actions.declare_file("apollo/com/example/type/Launch.kt"),
-        ctx.actions.declare_file("apollo/com/example/type/LaunchConnection.kt"),
-        ctx.actions.declare_file("apollo/com/example/type/GraphQLID.kt"),
-        ctx.actions.declare_file("apollo/com/example/type/GraphQLFloat.kt"),
-        ctx.actions.declare_file("apollo/com/example/type/Query.kt"),
-        ctx.actions.declare_file("apollo/com/example/type/GraphQLString.kt"),
-        ctx.actions.declare_file("apollo/com/example/type/GraphQLInt.kt"),
-        ctx.actions.declare_file("apollo/com/example/LaunchListQuery.kt"),
-    ]
-
-    outputs = [output_directory]
-    outputs.extend(output_files)
+    inputs = [ctx.file.query_file, ctx.file.schema_file]
+    outputs = [output_directory, output_srcjar]
 
     args = ctx.actions.args()
     args.add(output_directory.path)
-    args.add_all(ctx.files.srcs)
+    args.add(output_srcjar.path)
+    args.add(ctx.file.query_file)
+    args.add(ctx.file.schema_file)
 
     ctx.actions.run(
         executable = ctx.executable.code_generator,
@@ -39,10 +27,13 @@ compiler = rule(
             default = ":code_generator",
             executable = True,
         ),
-        "srcs": attr.label_list(
-            allow_files = True,
+        "query_file": attr.label(
+            allow_single_file = True,
             mandatory = True,
-            allow_empty = False,
+        ),
+        "schema_file": attr.label(
+            allow_single_file = True,
+            mandatory = True,
         ),
     },
     implementation = _compiler,

@@ -2,9 +2,8 @@ package com.example;
 
 public class Main {
     public static void main(String[] args) {
-        // bazel build //src/main/java/com/example:example_gql
+        // bazel build //src/main/java/com/example
 
-
-        new LaunchListQuery();
+        System.out.println(new LaunchListQuery().name());
     }
 }
