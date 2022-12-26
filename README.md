@@ -3,6 +3,11 @@
 There's no Bazel equivalent for the Apollo Gradle plugin, however, building
 one for Bazel is pretty straightforward. 
 
+To build the POC project, run:
+```shell
+bazel build //src/main/java/com/example
+```
+
 ### How the Gradle Apollo plugin works
 If we check the [sources of the Apollo Gradle plugin](https://github.com/apollographql/apollo-kotlin/blob/main/libraries/apollo-gradle-plugin-external/src/main/kotlin/com/apollographql/apollo3/gradle/internal/ApolloGenerateSourcesTask.kt#L382),
 we notice that the gradle plugin is nothing but a facade 
