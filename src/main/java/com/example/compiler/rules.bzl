@@ -1,19 +1,24 @@
 def _compiler(ctx):
-    out = ctx.actions.declare_directory("apollo")
-    inputs = ctx.files.srcs
+    output_directory = ctx.actions.declare_directory("apollo")
+    output_srcjar = ctx.actions.declare_file("sources.srcjar")
+
+    inputs = [ctx.file.query_file, ctx.file.schema_file]
+    outputs = [output_directory, output_srcjar]
 
     args = ctx.actions.args()
-    args.add(out.path)
-    args.add_all(ctx.files.srcs)
+    args.add(output_directory.path)
+    args.add(output_srcjar.path)
+    args.add(ctx.file.query_file)
+    args.add(ctx.file.schema_file)
 
     ctx.actions.run(
         executable = ctx.executable.code_generator,
         arguments = [args],
         inputs = inputs,
-        outputs = [out],
+        outputs = outputs,
     )
 
-    return [DefaultInfo(files = depset([out]))]
+    return [DefaultInfo(files = depset(outputs))]
 
 compiler = rule(
     attrs = {
@@ -22,10 +27,13 @@ compiler = rule(
             default = ":code_generator",
             executable = True,
         ),
-        "srcs": attr.label_list(
-            allow_files = True,
+        "query_file": attr.label(
+            allow_single_file = True,
             mandatory = True,
-            allow_empty = False,
+        ),
+        "schema_file": attr.label(
+            allow_single_file = True,
+            mandatory = True,
         ),
     },
     implementation = _compiler,

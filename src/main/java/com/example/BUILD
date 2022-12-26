@@ -1,19 +1,20 @@
-load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_java//java:defs.bzl", "java_import", "java_library")
+load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_jvm_library")
 load("//src/main/java/com/example/compiler:rules.bzl", "compiler")
 
-compiler(
-    name = "compiler",
+kt_jvm_library(
+    name = "example",
     srcs = [
-        "queries/launchlist.graphql",
-        "queries/schema.graphqls",
+        "Main.java",
+        ":compiler",
+    ],
+    deps = [
+        "@maven//:com_apollographql_apollo3_apollo_compiler",
     ],
 )
 
-java_library(
-    name = "example_gql",
-    srcs = [
-        "Main.java",
-    ],
-    deps = [
-    ],
+compiler(
+    name = "compiler",
+    query_file = "queries/launchlist.graphql",
+    schema_file = "queries/schema.graphqls",
 )
