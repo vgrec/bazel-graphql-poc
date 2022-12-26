@@ -7,7 +7,7 @@ one for Bazel is pretty straightforward.
 If we check the [sources of the Apollo Gradle plugin](https://github.com/apollographql/apollo-kotlin/blob/main/libraries/apollo-gradle-plugin-external/src/main/kotlin/com/apollographql/apollo3/gradle/internal/ApolloGenerateSourcesTask.kt#L382),
 we notice that the gradle plugin is nothing but a facade 
 in front of the [apollo-compiler](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-compiler) library.
-`apollo-compiler` is a separate library responsible for the actual code generation, and this library is decoupled from the gradle plugin implementation.
+`apollo-compiler` is a separate library responsible for the actual code generation decoupled from the gradle plugin implementation.
 
 To trigger code generation directly via `apollo-compiler`
 one can use:
